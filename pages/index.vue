@@ -1,83 +1,54 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-container>
+    <v-table>
+      <v-row>
+        <v-col>
+          <v-container style="margin-top:300px; font-size:50px; margin-left:100px">
+            <h1 style="font-size:50px;">
+              Faça seu login
+              <br>
+              na plataforma
+            </h1>
+          </v-container>
+        </v-col>
+        <v-col>
+          <v-form style=" border:medium">
+            <v-container style="width:75%; border-radius: 1%; background-color: #202024; margin-top:100px; margin-right:200px; font-size: 25px; padding-top: 50px; padding-left: 50px; padding-right: 50px;padding-bottom: 50px;">
+              <v-text-field
+                outlined
+                placeholder="E-mail"
+                prepend-inner-icon="mdi-email"
+                color="#593e99"
+                background-color="#121214"
+              />
+              <v-text-field
+                outlined
+                placeholder="Senha"
+                prepend-inner-icon="mdi-lock"
+                color="#593e99"
+                background-color="#121214"
+              />
+              <h3
+                style="font-size:small; color:#6e4cbf; margin-top:-7%"
+                href="/forget"
+              >
+                Esqueci minha senha
+              </h3>
+              <v-btn
+                style="   background-color: #41356b; margin-top: 5%"
+              >
+                ENTRAR
+              </v-btn>
+            </v-container>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-table>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'LoginPage'
 }
 </script>

@@ -99,19 +99,24 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Home',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-sale',
+          title: 'Items',
+          to: '/items'
+        },
+        {
+          icon: 'mdi-cannabis',
+          title: 'Categories',
+          to: '/categories'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'CRStore'
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Items Query</h1>
+    <h1>Addresses Query</h1>
     <hr>
     <v-container>
         <v-row>
@@ -8,7 +8,7 @@
             <v-btn
                 outlined
                 color="blue"
-                @click="getItems"
+                @click="getAddresses"
             >
                 Search
                 <v-icon
@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/items/newItem"
+                to="/addresses/newAddress"
             >
                 <v-icon>
                     mdi-plus
@@ -33,7 +33,7 @@
     <v-container>
         <v-data-table
          :headers="headers"
-         :items="items"
+         :items="addresses"
          :items-per-page="10"
          class="elevation-1"
         >
@@ -54,9 +54,6 @@
                 mdi-delete
             </v-icon>
         </template>
-        <template v-slot:item.price="{ item }">
-            R$ {{ item.price }}
-        </template>
 <template v-slot:no-data>
   <v-btn
     color="primary"
@@ -72,7 +69,7 @@
 
 <script>
 export default {
-    name: 'ItemsQueryPage',
+    name: 'AddressesQueryPage',
     data () {
         return {
             headers: [
@@ -83,50 +80,62 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: 'Name',
+                    text: 'Street',
                     align: 'center',
                     sortable: true,
-                    value: 'name',
+                    value: 'street',
                 },
                 {
-                    text: 'Category',
+                    text: 'Neighborhood',
                     align: 'center',
-                    sortable: false,
-                    value: 'category.name',
+                    sortable: true,
+                    value: 'neighborhood',
                 },
                 {
-                    text: 'Price',
+                    text: 'Number',
                     align: 'center',
-                    sortable: false,
-                    value: 'price',
+                    sortable: true,
+                    value: 'number',
+                },
+                {
+                    text: 'Complement',
+                    align: 'center',
+                    sortable: true,
+                    value: 'complement',
+                },
+                {
+                    text: 'Address',
+                    align: 'center',
+                    sortable: true,
+                    value: 'address',
                 },
                 { text: "", value: "actions" }
             ],
-            items: []
+            addresses: []
         }
     },
     created () {
-        this.getItems();
+        this.getAddresses()
     },
     methods: {
-        async getItems () {
-            this.items = await this.$axios.$get('http://localhost:3333/items');
+        async getAddresses () {
+            this.addresses = await this.$axios.$get('http://localhost:3333/addresses');
         },
-        async deleteItem (item) {
+        async deleteItem (address) {
             try {
-            if (confirm(`Do you want to delete item:${item.name}?`)) {
-                let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
-                this.$toast.success(`Item:${item.name} successfully deleted!`)
-                this.getItems();
+            if (confirm(`Do you want to delete address:${address.id}?`)) {
+                let response = await this.$axios.$post('http://localhost:3333/addresses/destroy', { id: address.id });
+                this.$toast.success(`Address:${address.id} successfully deleted!`);
+                this.getAddresses ();
             } 
             } catch (error) {
             this.$toast.error('An error occurred while fulfilling the request. Contact the ADM.')
         }
      },
-    async editItem (item) {
+    async editItem (address) {
       this.$router.push({
-        name: 'items-newItem',
-        params: { id: item.id }
+        name: 'addresses-newAddress',
+        params: { id: address.id }
       });
     }
   }

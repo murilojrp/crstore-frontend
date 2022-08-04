@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Items Query</h1>
+    <h1>Accepted Payment Methods Query</h1>
     <hr>
     <v-container>
         <v-row>
@@ -8,7 +8,7 @@
             <v-btn
                 outlined
                 color="blue"
-                @click="getItems"
+                @click="getPayments"
             >
                 Search
                 <v-icon
@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/items/newItem"
+                to="/payments/newPayment"
             >
                 <v-icon>
                     mdi-plus
@@ -33,7 +33,7 @@
     <v-container>
         <v-data-table
          :headers="headers"
-         :items="items"
+         :items="payments"
          :items-per-page="10"
          class="elevation-1"
         >
@@ -54,9 +54,6 @@
                 mdi-delete
             </v-icon>
         </template>
-        <template v-slot:item.price="{ item }">
-            R$ {{ item.price }}
-        </template>
 <template v-slot:no-data>
   <v-btn
     color="primary"
@@ -72,7 +69,7 @@
 
 <script>
 export default {
-    name: 'ItemsQueryPage',
+    name: 'PaymentsQueryPage',
     data () {
         return {
             headers: [
@@ -83,50 +80,38 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: 'Name',
+                    text: 'Method',
                     align: 'center',
                     sortable: true,
-                    value: 'name',
-                },
-                {
-                    text: 'Category',
-                    align: 'center',
-                    sortable: false,
-                    value: 'category.name',
-                },
-                {
-                    text: 'Price',
-                    align: 'center',
-                    sortable: false,
-                    value: 'price',
+                    value: 'method',
                 },
                 { text: "", value: "actions" }
             ],
-            items: []
+            payments: []
         }
     },
     created () {
-        this.getItems();
+        this.getPayments()
     },
     methods: {
-        async getItems () {
-            this.items = await this.$axios.$get('http://localhost:3333/items');
+        async getPayments () {
+            this.payments = await this.$axios.$get('http://localhost:3333/payments');
         },
-        async deleteItem (item) {
+        async deleteItem (payment) {
             try {
-            if (confirm(`Do you want to delete item:${item.name}?`)) {
-                let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
-                this.$toast.success(`Item:${item.name} successfully deleted!`)
-                this.getItems();
+            if (confirm(`Do you want to delete payment:${payment.method}?`)) {
+                let response = await this.$axios.$post('http://localhost:3333/payments/destroy', { id: payment.id });
+                this.$toast.success(`Payment:${payment.method} successfully deleted!`);
+                this.getPayments ();
             } 
             } catch (error) {
             this.$toast.error('An error occurred while fulfilling the request. Contact the ADM.')
         }
      },
-    async editItem (item) {
+    async editItem (payment) {
       this.$router.push({
-        name: 'items-newItem',
-        params: { id: item.id }
+        name: 'payments-newPayment',
+        params: { id: payment.id }
       });
     }
   }

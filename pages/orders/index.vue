@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Items Query</h1>
+    <h1>Categories Query</h1>
     <hr>
     <v-container>
         <v-row>
@@ -8,7 +8,7 @@
             <v-btn
                 outlined
                 color="blue"
-                @click="getItems"
+                @click="getCategories"
             >
                 Search
                 <v-icon
@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/items/newItem"
+                to="/categories/newCategory"
             >
                 <v-icon>
                     mdi-plus
@@ -33,7 +33,7 @@
     <v-container>
         <v-data-table
          :headers="headers"
-         :items="items"
+         :items="categories"
          :items-per-page="10"
          class="elevation-1"
         >
@@ -54,9 +54,6 @@
                 mdi-delete
             </v-icon>
         </template>
-        <template v-slot:item.price="{ item }">
-            R$ {{ item.price }}
-        </template>
 <template v-slot:no-data>
   <v-btn
     color="primary"
@@ -72,7 +69,7 @@
 
 <script>
 export default {
-    name: 'ItemsQueryPage',
+    name: 'CategoriesQueryPage',
     data () {
         return {
             headers: [
@@ -88,45 +85,33 @@ export default {
                     sortable: true,
                     value: 'name',
                 },
-                {
-                    text: 'Category',
-                    align: 'center',
-                    sortable: false,
-                    value: 'category.name',
-                },
-                {
-                    text: 'Price',
-                    align: 'center',
-                    sortable: false,
-                    value: 'price',
-                },
                 { text: "", value: "actions" }
             ],
-            items: []
+            categories: []
         }
     },
     created () {
-        this.getItems();
+        this.getCategories()
     },
     methods: {
-        async getItems () {
-            this.items = await this.$axios.$get('http://localhost:3333/items');
+        async getCategories () {
+            this.categories = await this.$axios.$get('http://localhost:3333/categories');
         },
-        async deleteItem (item) {
+        async deleteItem (category) {
             try {
-            if (confirm(`Do you want to delete item:${item.name}?`)) {
-                let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
-                this.$toast.success(`Item:${item.name} successfully deleted!`)
-                this.getItems();
+            if (confirm(`Do you want to delete category:${category.name}?`)) {
+                let response = await this.$axios.$post('http://localhost:3333/categories/destroy', { id: category.id });
+                this.$toast.success(`Category:${category.name} successfully deleted!`);
+                this.getCategories ();
             } 
             } catch (error) {
             this.$toast.error('An error occurred while fulfilling the request. Contact the ADM.')
         }
      },
-    async editItem (item) {
+    async editItem (category) {
       this.$router.push({
-        name: 'items-newItem',
-        params: { id: item.id }
+        name: 'categories-newCategory',
+        params: { id: category.id }
       });
     }
   }

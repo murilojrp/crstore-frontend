@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Items Query</h1>
+    <h1>Users Query</h1>
     <hr>
     <v-container>
         <v-row>
@@ -8,7 +8,7 @@
             <v-btn
                 outlined
                 color="blue"
-                @click="getItems"
+                @click="getUsers"
             >
                 Search
                 <v-icon
@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/items/newItem"
+                to="/users/register"
             >
                 <v-icon>
                     mdi-plus
@@ -33,7 +33,7 @@
     <v-container>
         <v-data-table
          :headers="headers"
-         :items="items"
+         :items="users"
          :items-per-page="10"
          class="elevation-1"
         >
@@ -54,9 +54,6 @@
                 mdi-delete
             </v-icon>
         </template>
-        <template v-slot:item.price="{ item }">
-            R$ {{ item.price }}
-        </template>
 <template v-slot:no-data>
   <v-btn
     color="primary"
@@ -72,7 +69,7 @@
 
 <script>
 export default {
-    name: 'ItemsQueryPage',
+    name: 'UsersQueryPage',
     data () {
         return {
             headers: [
@@ -83,52 +80,36 @@ export default {
                     value: 'id',
                 },
                 {
+                    text: 'Username',
+                    align: 'center',
+                    sortable: false,
+                    value: 'username',
+                },
+                {
                     text: 'Name',
                     align: 'center',
-                    sortable: true,
+                    sortable: false,
                     value: 'name',
                 },
                 {
-                    text: 'Category',
+                    text: 'Phone',
                     align: 'center',
                     sortable: false,
-                    value: 'category.name',
-                },
-                {
-                    text: 'Price',
-                    align: 'center',
-                    sortable: false,
-                    value: 'price',
+                    value: 'phone',
                 },
                 { text: "", value: "actions" }
             ],
-            items: []
+            users: []
         }
     },
     created () {
-        this.getItems();
+        this.getUsers()
     },
     methods: {
-        async getItems () {
-            this.items = await this.$axios.$get('http://localhost:3333/items');
-        },
-        async deleteItem (item) {
-            try {
-            if (confirm(`Do you want to delete item:${item.name}?`)) {
-                let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
-                this.$toast.success(`Item:${item.name} successfully deleted!`)
-                this.getItems();
-            } 
-            } catch (error) {
-            this.$toast.error('An error occurred while fulfilling the request. Contact the ADM.')
+        async getUsers () {
+            let response = await this.$axios.$get('http://localhost:3333/users');
+            this.users = response.data;
         }
-     },
-    async editItem (item) {
-      this.$router.push({
-        name: 'items-newItem',
-        params: { id: item.id }
-      });
-    }
   }
 }
 </script>

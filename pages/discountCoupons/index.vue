@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Items Query</h1>
+    <h1>Valid Discount Coupons</h1>
     <hr>
     <v-container>
         <v-row>
@@ -8,7 +8,7 @@
             <v-btn
                 outlined
                 color="blue"
-                @click="getItems"
+                @click="getDiscountCoupons"
             >
                 Search
                 <v-icon
@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/items/newItem"
+                to="/discountCoupons/newDiscountCoupon"
             >
                 <v-icon>
                     mdi-plus
@@ -33,7 +33,7 @@
     <v-container>
         <v-data-table
          :headers="headers"
-         :items="items"
+         :items="discountCoupons"
          :items-per-page="10"
          class="elevation-1"
         >
@@ -54,9 +54,6 @@
                 mdi-delete
             </v-icon>
         </template>
-        <template v-slot:item.price="{ item }">
-            R$ {{ item.price }}
-        </template>
 <template v-slot:no-data>
   <v-btn
     color="primary"
@@ -72,7 +69,7 @@
 
 <script>
 export default {
-    name: 'ItemsQueryPage',
+    name: 'DiscountCouponsQueryPage',
     data () {
         return {
             headers: [
@@ -83,50 +80,44 @@ export default {
                     value: 'id',
                 },
                 {
-                    text: 'Name',
+                    text: 'Coupon',
+                    align: 'center',
+                    sortable: false,
+                    value: 'coupon',
+                },
+                {
+                    text: 'Discount',
                     align: 'center',
                     sortable: true,
-                    value: 'name',
-                },
-                {
-                    text: 'Category',
-                    align: 'center',
-                    sortable: false,
-                    value: 'category.name',
-                },
-                {
-                    text: 'Price',
-                    align: 'center',
-                    sortable: false,
-                    value: 'price',
+                    value: 'discount',
                 },
                 { text: "", value: "actions" }
             ],
-            items: []
+            discountCoupons: []
         }
     },
     created () {
-        this.getItems();
+        this.getDiscountCoupons()
     },
     methods: {
-        async getItems () {
-            this.items = await this.$axios.$get('http://localhost:3333/items');
+        async getDiscountCoupons () {
+            this.discountCoupons = await this.$axios.$get('http://localhost:3333/discountCoupons');
         },
-        async deleteItem (item) {
+        async deleteItem (discountCoupon) {
             try {
-            if (confirm(`Do you want to delete item:${item.name}?`)) {
-                let response = await this.$axios.$post('http://localhost:3333/items/destroy', { id: item.id });
-                this.$toast.success(`Item:${item.name} successfully deleted!`)
-                this.getItems();
+            if (confirm(`Do you want to delete this Coupon?`)) {
+                let response = await this.$axios.$post('http://localhost:3333/discountCoupons/destroy', { id: discountCoupon.id });
+                this.$toast.success(`Coupon:${discountCoupon.coupon} successfully deleted!`);
+                this.getDiscountCoupons ();
             } 
             } catch (error) {
             this.$toast.error('An error occurred while fulfilling the request. Contact the ADM.')
         }
      },
-    async editItem (item) {
+    async editItem (discountCoupon) {
       this.$router.push({
-        name: 'items-newItem',
-        params: { id: item.id }
+        name: 'discountCoupons-newDiscountCoupon',
+        params: { id: discountCoupon.id }
       });
     }
   }

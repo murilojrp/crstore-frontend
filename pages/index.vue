@@ -62,7 +62,7 @@
 <script>
 export default {
   layout: 'login',
-  name: 'LoginPage',
+  name: 'IndexPage',
 
   data() {
     return {
@@ -73,23 +73,31 @@ export default {
         password: null
       },
       rule: [
-              v => !!v || 'Required field'
-          ]
+        v => !!v || 'Required field'
+      ]
     }
   },
 
   methods: {
     async login () {
+      
       if (!this.valid) {
         return this.$toast.warning('The registration form is not valid!')
       } else {
       let response = await this.$axios.$post('http://localhost:3333/users/login', this.user);
-      if (!response.token) {
-        return this.$toast.info('Username or password invalid!')
+
+        if (!response.token) {
+          return this.$toast.info('Username or password invalid!')
+        } else {
+        this.$toast.success('Welcome back!')
+        localStorage.setItem('crstore-api-token', response.token);
+        this.validate(response.role);
       }
-      this.$toast.success('Welcome back!')
-      localStorage.setItem('crstore-api-token', response.token)
     }
+    },
+    async validate (token, role) {
+      let response = await this.$axios.$post('http://localhost:3333/users/validate', { role: role});
+      console.log(response);
     }
   }
 }

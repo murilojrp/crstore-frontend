@@ -52,6 +52,9 @@
                     required
                     label="Password"
                     outlined
+                    :append-icon="show1 ? 'mdi-eye-off' : 'mdi-eye'"
+                    :type="show1 ? 'text' : 'password'"
+                    @click:append="show1 = !show1"
                 >
                 </v-text-field>
             </v-col>
@@ -60,7 +63,7 @@
     </v-form>
     <v-btn
         outlined
-        to="/index"
+        to="/"
     >
     Cancel
     </v-btn>
@@ -75,24 +78,24 @@
 
 <script>
 export default {
-    name: 'NewCategoryPage',
+    name: 'RegisterPage',
+    layout: 'login',
     data () {
         return {
-          valid: false,
-          category: {
+            show1: false,
+            valid: false,
+            user: {
               id: null,
-              name: null
+              name: null,
+              username: null,
+              phone: null,
+              password: null
           },
           rule: [
               v => !!v || 'Required field'
           ]
         }
     },
-      created () {
-          if (this.$route?.params?.id) {
-          this.getById(this.$route.params.id)
-          }
-      },
   
     methods: {
         async persist () {
@@ -101,28 +104,23 @@ export default {
                 if (!this.valid) {
                     return this.$toast.warning('The registration form is not valid!')
                 }
-        //montamos a variárel categoria para enviar nos posts
-                let category = {
-                name: this.category.name
+            
+                let user = {
+                    name: this.user.name,
+                    username: this.user.username,
+                    phone: this.user.phone,
+                    password: this.user.password
+                }
+                let response = await this.$axios.$post('http://localhost:3333/users/register', user);
+                if (response.type == "error") {
+                    return this.$toast.info('There is already an user with this username!')
+                }
+                this.$toast.success('Registration successfully completed!');
+                return this.$router.push("/");
+            } catch (error) {
+                this.$toast.error('An error occurred while registering!');
             }
-        //caso não tenha ID na tela, significa que é um cadastro NOVO
-        //por isso ele vai apenas com o objeto da categoria para o cadastro
-        //como no final tem um RETURN, ele vai cair fora da função PERSISTIR
-        if (!this.category.id) {
-          await this.$axios.$post('http://localhost:3333/categories', category);
-          this.$toast.success('Registration successfully completed!');
-          return this.$router.push('/categories');
-        }
-        await this.$axios.$post(`http://localhost:3333/categories/${this.category.id}`, category);
-        this.$toast.success('Registration successfully updated!');
-        return this.$router.push('/categories');
-      } catch (error) {
-        this.$toast.error('An error occurred while registering!');
-      }
-      },
-      async getById (id) {
-        this.category = await this.$axios.$get(`http://localhost:3333/categories/${id}`);
-      }
+        },
     }
-  }
+}
 </script>

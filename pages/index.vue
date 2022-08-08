@@ -95,9 +95,12 @@ export default {
       }
     }
     },
-    async validate (token, role) {
-      let response = await this.$axios.$post('http://localhost:3333/users/validate', { role: role});
-      console.log(response);
+    async validate (role) {
+      if (role == "customer") {
+        this.$router.push('/homeUser');
+      } else {
+        this.$router.push('/homeAdmin');
+      }
     }
   }
 }

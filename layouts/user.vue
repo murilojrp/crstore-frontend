@@ -30,31 +30,14 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
     <v-main>
       <v-container>
-        <Nuxt />
+        <Nuxt/>
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-footer
       :absolute="!fixed"
       app
@@ -74,45 +57,20 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Home',
-          to: '/'
+          icon: 'mdi-cart-outline',
+          title: 'Cart',
+          to: '/cart'
         },
         {
-          icon: 'mdi-sale',
-          title: 'Items',
-          to: '/items'
+          icon: 'mdi-list-box-outline',
+          title: 'Order',
+          to: '/order'
         },
         {
-          icon: 'mdi-cannabis',
-          title: 'Categories',
-          to: '/categories'
-        },
-        {
-          icon: 'mdi-cannabis',
-          title: 'Discount Coupons',
-          to: '/discountCoupons'
-        },
-        {
-          icon: 'mdi-cannabis',
-          title: 'Users',
-          to: '/users'
-        },
-        {
-          icon: 'mdi-cannabis',
-          title: 'Payments',
-          to: '/payments'
-        },
-        {
-          icon: 'mdi-cannabis',
-          title: 'Addresses',
+          icon: 'mdi-map-marker-outline',
+          title: 'My Addresses',
           to: '/addresses'
         },
-        {
-          icon: 'mdi-cannabis',
-          title: 'Orders',
-          to: '/orders'
-        }
       ],
       miniVariant: false,
       right: true,

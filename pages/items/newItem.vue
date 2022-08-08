@@ -17,8 +17,6 @@
                 >
                 </v-text-field>
             </v-col>
-        </v-row>
-        <v-row>
             <v-col>
                 <v-text-field
                     v-model="item.name"
@@ -51,6 +49,14 @@
             ></v-autocomplete>
             </v-col>
         </v-row>
+        <v-row>
+          <v-text-field
+                v-model="item.image"
+                :rules="rule"
+                aria-required="outlined"
+                label="URL"
+              ></v-text-field>
+        </v-row>
     </v-container>
     </v-form>
     <v-col>
@@ -80,7 +86,8 @@ export default {
               id: null,
               name: null,
               price: null,
-              idCategory: null
+              idCategory: null,
+              image: null
           },
           category: {
             name: null
@@ -110,7 +117,8 @@ export default {
           let item = {
             name: this.item.name,
             price: this.item.price,
-            idCategory: this.item.idCategory
+            idCategory: this.item.idCategory,
+            image: this.item.image
           }
 
         if (!this.item.id) {

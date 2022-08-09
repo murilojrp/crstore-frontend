@@ -7,7 +7,7 @@
             <h1 style="font-size:50px;">
               Bem-Vindo
               <br>
-              Faça seu login CRStore!
+              Faça seu login na CRStore!
             </h1>
               <h3 style="font-size:25%">
                 Ainda não tem cadastro? Faça um por <a href="/users/register">aqui!</a>

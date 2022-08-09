@@ -9,7 +9,7 @@
       :absolute="!fixed"
       app
     >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&copy; {{ `${new Date().getFullYear()} | CRStore ` }}</span>
     </v-footer>
   </v-app>
 </template>

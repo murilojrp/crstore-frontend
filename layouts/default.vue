@@ -90,11 +90,6 @@ export default {
           title: 'Addresses',
           to: '/addresses'
         },
-        {
-          icon: 'mdi-list-box',
-          title: 'Orders',
-          to: '/orders'
-        }
       ],
       miniVariant: false,
       right: true,

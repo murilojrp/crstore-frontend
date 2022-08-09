@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/addresses/newAddress"
+                to="/users/newAddress"
             >
                 <v-icon>
                     mdi-plus
@@ -70,6 +70,7 @@
 <script>
 export default {
     name: 'AddressesQueryPage',
+    layout: 'user',
     data () {
         return {
             headers: [
@@ -119,7 +120,8 @@ export default {
     },
     methods: {
         async getAddresses () {
-            this.addresses = await this.$axios.$get('http://localhost:3333/addresses');
+            let response = await this.$api.$get('/addresses/getfromuser');
+            this.addresses = response.data;
         },
         async deleteItem (address) {
             try {
@@ -134,7 +136,7 @@ export default {
      },
     async editItem (address) {
       this.$router.push({
-        name: 'addresses-newAddress',
+        name: 'users-newAddress',
         params: { id: address.id }
       });
     }

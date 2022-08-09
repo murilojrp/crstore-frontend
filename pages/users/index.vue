@@ -21,7 +21,7 @@
                 color="green"
                 fab
                 style="margin-left:1%"
-                to="/users/register"
+                to="/register"
             >
                 <v-icon>
                     mdi-plus

@@ -1,7 +1,8 @@
 <template>
-  <v-container>
+<v-container>
+    <v-container>
     <v-row>
-      <v-card elevation="24" shaped style="width: 30%; margin-left: 1%; margin-top: 2%; margin-bottom: 2%; margin-right: 1%;"
+      <v-card elevation="24" shaped style="width: 20%; margin-left: 1%;  margin-bottom: 5%; margin-right: 1%; padding-bottom: 1%; background-color: gray; "
       v-for="item in items" 
       :key="item.id">
         <v-img
@@ -36,6 +37,7 @@
         </v-btn>
       </v-card>
     </v-row>
+  </v-container>
   </v-container>
 </template>
 

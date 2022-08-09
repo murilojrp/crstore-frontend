@@ -1,6 +1,6 @@
 export default function ({ $axios }, inject) {
   
-    const token = localStorage.getItem('crstore-token') || '';
+    const token = localStorage.getItem('crstore-api-token') || '';
   
     const api = $axios.create({
       headers: {

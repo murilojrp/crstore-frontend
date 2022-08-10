@@ -5,20 +5,6 @@
     <v-form v-model="valid">
     <v-container>
         <v-row>
-            <v-col
-            cols="2"
-            >
-                <v-text-field
-                    v-model="address.id"
-                    placeholder="Code"
-                    label="Code"
-                    disabled
-                    outlined
-                >
-                </v-text-field>
-            </v-col>
-        </v-row>
-        <v-row>
             <v-col>
                 <v-text-field
                     v-model="address.street"
@@ -34,7 +20,7 @@
         <v-row>
             <v-col>
                 <v-text-field
-                    v-model="address.neihgborhood"
+                    v-model="address.neighborhood"
                     placeholder="Neighborhood"
                     :rules="rule"
                     required
@@ -57,11 +43,37 @@
                 </v-text-field>
             </v-col>
         </v-row>
+        <v-row>
+            <v-col>
+                <v-text-field
+                    v-model="address.number"
+                    placeholder="Number"
+                    :rules="rule"
+                    required
+                    label="Number"
+                    outlined
+                >
+                </v-text-field>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-text-field
+                    v-model="address.complement"
+                    placeholder="Complement"
+                    :rules="rule"
+                    required
+                    label="Complement"
+                    outlined
+                >
+                </v-text-field>
+            </v-col>
+        </v-row>
     </v-container>
     </v-form>
     <v-btn
         outlined
-        to="/homeUser"
+        to="/addresses"
     >
     Cancel
     </v-btn>
@@ -77,6 +89,7 @@
 <script>
 export default {
     name: 'NewAddressPage',
+    layout: 'user',
     data () {
         return {
           valid: false,
@@ -86,8 +99,7 @@ export default {
               neighborhood: null,
               address: null,
               number: null,
-              complement:null,
-              idUser: null
+              complement:null
           },
           rule: [
               v => !!v || 'Required field'
@@ -95,45 +107,38 @@ export default {
         }
     },
       created () {
-            this.getUserByToken();
           if (this.$route?.params?.id) {
-          this.getById(this.$route.params.id)
+          this.getById(this.$route.params.id);
           }
       },
   
     methods: {
         async persist () {
             try {
-                //primeiro valida-se se o formulário está preenchido
-                if (!this.valid) {
-                    return this.$toast.warning('The registration form is not valid!')
-                }
-        //montamos a variárel categoria para enviar nos posts
-                let address = {
-                street: this.address.street,
-                neighborhood: this.address.neighborhood,
-                address: this.address.address,
-                number: this.address.number,
-                complement: this.address.complement,
-                idUser: this.address.idUser
+            if (!this.valid) {
+                return this.$toast.warning('The registration form is not valid!')
             }
-        //caso não tenha ID na tela, significa que é um cadastro NOVO
-        //por isso ele vai apenas com o objeto da categoria para o cadastro
-        //como no final tem um RETURN, ele vai cair fora da função PERSISTIR
-        if (!this.address.id) {
-          await this.$axios.$post('http://localhost:3333/addresses', address);
-          this.$toast.success('Registration successfully completed!');
-          return this.$router.push('/homeUser');
-        }
-        await this.$axios.$post(`http://localhost:3333/addresses/${this.address.id}`, address);
-        this.$toast.success('Registration successfully updated!');
-        return this.$router.push('/homeUser');
-      } catch (error) {
-        this.$toast.error('An error occurred while registering!');
-      }
+            let address = {
+            address: this.address.address,
+            street: this.address.street,
+            neighborhood: this.address.neighborhood,
+            number: this.address.number,
+            complement: this.address.complement
+            }
+            if (!this.address.id) {
+                await this.$api.$post('/addresses/persist', address);
+                this.$toast.success('Registration successfully completed!');
+                return this.$router.push('/addresses');
+            }
+            await this.$api.$post(`/addresses/persist/${this.address.id}`, address);
+            this.$toast.success('Registration successfully updated!');
+            return this.$router.push('/addresses');
+            } catch (error) {
+            this.$toast.error('An error occurred while registering!');
+            }
       },
       async getById (id) {
-        this.address = await this.$axios.$get(`http://localhost:3333/addresses/${id}`);
+        this.address = await this.$api.$get(`/addresses/${id}`);
       }
     }
   }

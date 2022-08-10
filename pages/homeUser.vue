@@ -1,6 +1,24 @@
 <template>
 <v-container>
-    <v-container>
+    <v-container
+    style="background-color: purple"
+    >
+      <v-container>
+      <h1
+      style="margin-left:30%"
+      >
+        BOAS COMPRAS
+      </h1>
+      <v-row>
+        <v-btn
+        style="margin-left:35%; margin-top:5%"
+        color="green"
+        >
+        FAZER NOVO PEDIDO
+        </v-btn>
+      </v-row>
+      <br> <br>
+      </v-container>
     <v-row>
       <v-card elevation="24" shaped style="width: 20%; margin-left: 1%;  margin-bottom: 5%; margin-right: 1%; padding-bottom: 1%; background-color: gray; "
       v-for="item in items" 
@@ -60,9 +78,7 @@ export default {
   methods: {
     async getItems () {
       let response = await this.$api.get('/items');
-      console.log(response.data);
       this.items = response.data;
-      console.log(this.items.category)
     }
   }
 }

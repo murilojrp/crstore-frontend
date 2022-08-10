@@ -1,35 +1,8 @@
 <template>
   <v-container>
-    <h1>Addresses Query</h1>
+    <h1>Your Addresses</h1>
     <hr>
-    <v-container>
-        <v-row>
-            <v-col>
-            <v-btn
-                outlined
-                color="blue"
-                @click="getAddresses"
-            >
-                Search
-                <v-icon
-                    style="margin-left:5%"
-                >
-                    mdi-magnify
-                </v-icon>
-            </v-btn>
-            <v-btn
-                color="green"
-                fab
-                style="margin-left:1%"
-                to="/users/newAddress"
-            >
-                <v-icon>
-                    mdi-plus
-                </v-icon>
-            </v-btn>
-            </v-col>
-        </v-row>
-    </v-container>
+    <br>
     <v-container>
         <v-data-table
          :headers="headers"
@@ -64,6 +37,22 @@
 </template>
         </v-data-table>
     </v-container>
+    <v-container>
+        <v-row>
+            <v-col>
+            <v-btn
+                color="green"
+                fab
+                style="margin-left:50%"
+                to="/users/newAddress"
+            >
+                <v-icon>
+                    mdi-plus
+                </v-icon>
+            </v-btn>
+            </v-col>
+        </v-row>
+    </v-container>
   </v-container>
 </template>
 
@@ -74,12 +63,6 @@ export default {
     data () {
         return {
             headers: [
-                {
-                    text: 'Code',
-                    align: 'center',
-                    sortable: true,
-                    value: 'id',
-                },
                 {
                     text: 'Street',
                     align: 'center',
@@ -120,14 +103,14 @@ export default {
     },
     methods: {
         async getAddresses () {
-            let response = await this.$api.$get('/addresses/getfromuser');
+            let response = await this.$api.$get('/addresses');
             this.addresses = response.data;
         },
         async deleteItem (address) {
             try {
-            if (confirm(`Do you want to delete address:${address.id}?`)) {
-                let response = await this.$axios.$post('http://localhost:3333/addresses/destroy', { id: address.id });
-                this.$toast.success(`Address:${address.id} successfully deleted!`);
+            if (confirm(`Do you want to delete this address?`)) {
+                let response = await this.$api.$post('/addresses/destroy', { id: address.id });
+                this.$toast.success(`Address successfully deleted!`);
                 this.getAddresses ();
             } 
             } catch (error) {

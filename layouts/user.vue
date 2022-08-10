@@ -57,6 +57,11 @@ export default {
       fixed: false,
       items: [
         {
+          icon: 'mdi-apps',
+          title: 'Home',
+          to: '/homeUser'
+        },
+        {
           icon: 'mdi-cart-outline',
           title: 'Cart',
           to: '/cart'

@@ -103,13 +103,13 @@ export default {
     },
     methods: {
         async getAddresses () {
-            let response = await this.$api.$get('/addresses');
+            let response = await this.$api.get('/addresses');
             this.addresses = response.data;
         },
         async deleteItem (address) {
             try {
             if (confirm(`Do you want to delete this address?`)) {
-                let response = await this.$api.$post('/addresses/destroy', { id: address.id });
+                let response = await this.$api.post('/addresses/destroy', { id: address.id });
                 this.$toast.success(`Address successfully deleted!`);
                 this.getAddresses ();
             } 

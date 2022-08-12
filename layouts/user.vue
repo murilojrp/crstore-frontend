@@ -64,7 +64,7 @@ export default {
         {
           icon: 'mdi-cart-outline',
           title: 'Cart',
-          to: '/cart'
+          to: '/users/cart'
         },
         {
           icon: 'mdi-list-box-outline',
